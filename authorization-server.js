@@ -61,15 +61,13 @@ app.get("/authorize", (req, res) => {
     res.status(401).send("Error: client not authorized");
     return;
   }
-
   if (
-    typeof req.query.scopes !== "string" ||
-    !containsAll(client.scopes, req.query.scopes.split(" "))
+    typeof req.query.scope !== "string" ||
+    !containsAll(client.scopes, req.query.scope.split(" "))
   ) {
     res.status(401).send("Error: invalid scopes requested");
     return;
   }
-
   const requestId = randomString();
   requests[requestId] = req.query;
   res.render("login", {
@@ -78,7 +76,6 @@ app.get("/authorize", (req, res) => {
     requestId,
   });
 });
-
 app.post("/approve", (req, res) => {
   const { userName, password, requestId } = req.body;
   if (!userName || users[userName] !== password) {
