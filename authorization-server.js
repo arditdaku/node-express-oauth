@@ -104,9 +104,9 @@ app.post("/approve", (req, res) => {
 });
 
 app.post("/token", (req, res) => {
-  let { authCredentials } = req.headers.authorization;
+  let authCredentials = req.headers.authorization;
   if (!authCredentials) {
-    res.status(401).send("Error: user not authorized");
+    res.status(401).send("Error: not authorized");
     return;
   }
   const { clientId, clientSecret } = decodeAuthCredentials(authCredentials);
@@ -115,7 +115,6 @@ app.post("/token", (req, res) => {
     res.status(401).send("Error: client not authorized");
     return;
   }
-
   const code = req.body.code;
   if (!code || !authorizationCodes[code]) {
     res.status(401).send("Error: invalid code");
@@ -135,9 +134,9 @@ app.post("/token", (req, res) => {
       issuer: "http://localhost:" + config.port,
     }
   );
-  res.status(200).json({
+  res.json({
     access_token: token,
-    token_type: "Bearer:",
+    token_type: "Bearer",
     scope: clientReq.scope,
   });
 });
