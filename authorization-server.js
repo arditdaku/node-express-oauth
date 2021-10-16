@@ -135,7 +135,7 @@ app.post("/token", (req, res) => {
       issuer: "http://localhost:" + config.port,
     }
   );
-  res.json({
+  res.status(200).json({
     access_token: token,
     token_type: "Bearer:",
     scope: clientReq.scope,
